@@ -1,6 +1,6 @@
 #include "include/kernel.h"
 
-extern key_buf kb;     //追加
+extern key_buf kb;
 
 void kernel_main(void){
   terminal_initialize();
@@ -8,9 +8,8 @@ void kernel_main(void){
   pic_init();
   idt_init();
   key_init();
-  terminal_writestring("Hello, kernel World! \n");
+  terminal_writestring("Hello, kernel World! \n\n");
 
-  /* 以下から変更 */
   kb.len = 0;
   kb.write = 0;
   kb.read = 0;
@@ -28,7 +27,6 @@ void kernel_main(void){
       terminal_writestring(c);
     }
   }
-  /* ここまで */
 }
 
 

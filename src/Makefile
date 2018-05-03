@@ -1,6 +1,6 @@
 all: create
 OBJ = kernel.o terminal.o boot.o inb_outb.o keyboard.o \
-      gdt.o idt.o pic.o interrupt.o
+      keymap.o gdt.o idt.o pic.o interrupt.o
 OBJAS = interruptas.o idts.o gdts.o boot.o
 CC = i686-elf-gcc
 CCAS = i686-elf-as
@@ -32,6 +32,9 @@ gdt.o: gdt.c $(INCLUDEDIR)gdt.h
 	$(CC) -c $^ -std=gnu99 $(CFLAGS) -Wextra
 
 inb_outb.o: $(INCLUDEDIR)inb_outb.h
+	$(CC) -c $^ -std=gnu99 $(CFLAGS) -Wextra
+
+keymap.o: keymap.c $(INCLUDEDIR)keyboard.h
 	$(CC) -c $^ -std=gnu99 $(CFLAGS) -Wextra
 
 keyboard.o: keyboard.c $(INCLUDEDIR)keyboard.h

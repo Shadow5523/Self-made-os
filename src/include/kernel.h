@@ -21,7 +21,7 @@
 #include "pic.h"
 #include "idt.h"
 
-uint8_t* c[2];     //追加
+uint8_t* c[2];
 
 size_t strlen(const uint8_t*);
 
