@@ -27,7 +27,6 @@ void terminal_putentryat(uint8_t c, uint8_t color, size_t x, size_t y){
 }
 
 
-//以下の関数を追加
 void terminal_uponerow(void){
   for (size_t y = 1; y < VGA_HEIGHT; y++) {
     for (size_t x = 0; x < VGA_WIDTH; x++) {
@@ -41,7 +40,6 @@ void terminal_uponerow(void){
 }
 
 
-//既存の下記関数を以下のように変更
 void terminal_putchar(uint8_t c){
   if (c == '\n') {
     c = 0;

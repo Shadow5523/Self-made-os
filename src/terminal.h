@@ -14,7 +14,7 @@ static uint16_t* t_buffer;
 void terminal_initialize(void);
 void terminal_setcolor(uint8_t);
 void terminal_putentryat(uint8_t, uint8_t, size_t, size_t);
-void terminal_uponerow(void);     //追加
+void terminal_uponerow(void);
 void terminal_putchar(uint8_t c);
 void terminal_write(const uint8_t*, size_t);
 void terminal_writestring(const uint8_t*);

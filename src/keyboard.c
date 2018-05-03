@@ -66,7 +66,7 @@ void keyboard_input_int(void){
 	++j;
       }
 
-      if (i > 700000) i = 0;
+      if(i > 700000) i = 0;
       ++i;
     }
   }
