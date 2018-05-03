@@ -10,31 +10,31 @@ GCC バージョン : gcc version 6.3.0
   
   
 2. [OSを自作してみる2 ～32ビットOSの作成～](https://zeus.shadow-net.jp/?p=126)  
-   ソースコード : [version_1](/version_1)
+   ソースコード : [version0.1.0](https://github.com/Shadow5523/osdev/releases/tag/version0.1.0)
   
 3. [OSを自作してみる3 ～キーボード入力～](https://zeus.shadow-net.jp/?p=235)  
-   ソースコード : [version_2](/version_2)
+   ソースコード : [version0.2.0](https://github.com/Shadow5523/osdev/releases/tag/version0.2.0)
   
 4. [OSを自作してみる4 ～GDT初期化～](https://zeus.shadow-net.jp/?p=337)  
-   ソースコード : [version_3](/version_3)
+   ソースコード : [version0.3.0](https://github.com/Shadow5523/osdev/releases/tag/version0.3.0)
   
 5. [OSを自作してみる5 ～IDT/PICの初期化～](https://zeus.shadow-net.jp/?p=415)  
-   ソースコード : [version_4](/version_4)  
+   ソースコード : [version0.4.0](https://github.com/Shadow5523/osdev/releases/tag/version0.4.0)  
 
 6. [OSを自作してみる6 ～割り込み経由でのキー入力～](https://zeus.shadow-net.jp/?p=508)  
-   ソースコード : [version_5](/version_5)  
+   ソースコード : [version0.5.0](https://github.com/Shadow5523/osdev/releases/tag/version0.5.0)  
 
 7. [OSを自作してみる7 ～キーボード入力2～](https://zeus.shadow-net.jp/?p=667)  
-   ソースコード : [version_6](/version_6)  
+   ソースコード : [version0.6.0](https://github.com/Shadow5523/osdev/releases/tag/version0.6.0)  
 
 8. [OSを自作してみる8 ～簡易libc(printfなど)を自作 & メモリマップ取得～](https://zeus.shadow-net.jp/?p=711)  
-   ソースコード : [version_7](/version_7)  
+   ソースコード : [version0.7.0](https://github.com/Shadow5523/osdev/releases/tag/version0.7.0)  
   
 9. [OSを自作してみる9 ～簡易プロンプトとコマンドを実装～](https://zeus.shadow-net.jp/?p=1077)  
-   ソースコード : [version_8](/version_8)
+   ソースコード : [version0.8.0](https://github.com/Shadow5523/osdev/releases/tag/version0.8.0)
 
 10. [OSを自作してみる10 ～ソフトウェア割り込みを実装してみる～](https://zeus.shadow-net.jp/?p=1201)  
-   ソースコード : [version_9](/version_9)  
+   ソースコード : [version0.9.0](https://github.com/Shadow5523/osdev/releases/tag/version0.9.0)  
 
 ## コンパイル済イメージファイル
 最新版のイメージファイルを以下に配置しておきます。  
