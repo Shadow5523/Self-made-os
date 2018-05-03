@@ -1,7 +1,10 @@
-#include "keyboard.h"
-#include "inb_outb.h"
+#include "include/keyboard.h"
+#include "include/inb_outb.h"
+
+key_buf kb;
 
 void key_init(void){
+  change_trate_delay(TYPEMATICDELAY_SET2);     //追加
   if (enable_keyboard() == 0xFA) {
     terminal_writestring("Keyboard enable OK\n");
   }
@@ -30,61 +33,45 @@ uint8_t ps2_kerboard_init(void){
 }
 
 
-void keyboard_input_int(void){
-  uint32_t old, scan_code;
-  uint8_t us_keytable_set2[0x54] = {
-    '0', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-    '0', '-', '=', '\b', '\t', 'Q', 'W', 'E', 'R', 'T',
-    'Y', 'U', 'I', 'O', 'P', '[', ']', '\n', '0', 'A',
-    'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', '\'',
-    '`', '0', '\\', 'Z', 'X', 'C', 'V', 'B', 'N', 'M',
-    ',', '.', '/', '0', '*', '0', ' ', '0', '0', '0',
-    '0', '0', '0', '0', 'a', '0', '0', '0', '0', '0',
+//下の関数を全面的に変更
+void keyboard_input_int(uint8_t scan_code){
+  uint8_t us_keytable_set2[0x80] = {
+    '0', '0', '1', '2', '3', '4', '5', '6', '7', '8',
+    '9', '0', '-', '=', '\b', '\t', 'q', 'w', 'e', 'r',
+    't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\n', '0',
+    'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';',
+    '\'', '`', '0', '\\', 'z', 'x', 'c', 'v', 'b', 'n',
+    'm', ',', '.', '/', '0', '0', '0', ' ', '0', '0',
     '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
-    '0', '0', '0', '0', '0'};
-  uint8_t psend[2];
+    '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
+    '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
+    '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
+    '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
+    '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
+    '0', '0', '0', '0', '0', '0', '0', '0'};
 
-  while(1){
-    scan_code = getchar();
-    if (scan_code <= 0x80) {
-      psend[0] = us_keytable_set2[scan_code];
-      psend[1] = 0;
-      if (i == 1) {
-	if (j == 0) {
-	  terminal_writestring(psend);
-	  old = scan_code;
-	} else if (j > 800000) {
-
-	  terminal_writestring(psend);
-	}
-      }
-
-      if (old != scan_code) {
-	i = 0;
-	j = 0;
-      } else if (old == scan_code) {
-	++j;
-      }
-
-      if(i > 700000) i = 0;
-      ++i;
+  if (scan_code <= 0x80) {
+    if (kb.len < 128) {
+      kb.pdata[kb.write++] = us_keytable_set2[scan_code];
+      ++kb.len;
+      if (kb.write == 128) { kb.write = 0; }
     }
   }
 }
 
 
 uint8_t enable_keyboard(void){
-  outb(0x60, 0xF4);
+  outb(PORTMAP_KEYBOARD1, ENABLE_KEYBOARD);
   return getscode();
 }
 
 
 uint8_t getscodeset(void){
-  while (inb(0x64) & 0x02);
-  outb(0x60, 0xf0);
+  while (inb(PORTMAP_KEYBOARD2) & 0x02);
+  outb(PORTMAP_KEYBOARD1, SET_SCANCODESET);
   if (getscode() == 0xFA) {
-    while (inb(0x64) & 0x02);
-    outb(0x60, 0x00);
+    while (inb(PORTMAP_KEYBOARD2) & 0x02);
+    outb(PORTMAP_KEYBOARD1, 0x00);
     return getscode();
   } else {
     return 0x00;
@@ -92,11 +79,13 @@ uint8_t getscodeset(void){
 }
 
 
+//型をuint8_tにしないとVMWareでのキー入力の挙動がおかしくなる
+//ので変更
 uint8_t getscode(void){
   uint8_t c = 0;
   do {
-    if (inb(0x60) != c) {
-      c = inb(0x60);
+    if (inb(PORTMAP_KEYBOARD1) != c) {
+      c = inb(PORTMAP_KEYBOARD1);
       if (c > 0) return c;
     }
   } while (1);
@@ -108,7 +97,17 @@ uint8_t getchar(void){
 }
 
 
+//関数名変更
 void change_codeset(uint8_t set){
-  outb(0x60, 0xf0);
-  outb(0x60, set);
+  outb(PORTMAP_KEYBOARD1, SET_SCANCODESET);
+  outb(PORTMAP_KEYBOARD1, set);
+}
+
+//追加
+void change_trate_delay(uint8_t set){
+  while (inb(PORTMAP_KEYBOARD2) & 0x02);
+  outb(PORTMAP_KEYBOARD1, SET_TYPEMATIC_RATE);
+  while (inb(PORTMAP_KEYBOARD2) & 0x02);
+  outb(PORTMAP_KEYBOARD1, set);
+
 }

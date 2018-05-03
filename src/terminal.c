@@ -1,5 +1,5 @@
-#include "terminal.h"
-#include "vga.h"
+#include "include/terminal.h"
+#include "include/vga.h"
 
 void terminal_initialize(void){
   t_row = 0;

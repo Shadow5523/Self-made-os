@@ -1,30 +1,53 @@
 all: create
+OBJ = kernel.o terminal.o boot.o inb_outb.o keyboard.o \
+      gdt.o idt.o pic.o interrupt.o
+OBJAS = interruptas.o idts.o gdts.o boot.o
+CC = i686-elf-gcc
+CCAS = i686-elf-as
+CFLAGS = -ffreestanding -O2 -Wall
+INCLUDEDIR = include/
+
+interruptas.o: interrupt.s
+	$(CCAS) $< -o interruptas.o
+
+idts.o: idt.s
+	$(CCAS) $< -o idts.o
+
 gdts.o: gdt.s
-	i686-elf-as gdt.s -o gdts.o
-
-gdt.o: gdt.h gdt.c
-	i686-elf-gcc -c gdt.c -std=gnu99 -ffreestanding -O2 -Wall -Wextra
-
-inb_outb.o: inb_outb.h
-	i686-elf-gcc -c inb_outb.h -std=gnu99 -ffreestanding -O2 -Wall -Wextra
-
-keyboard.o: keyboard.c keyboard.h
-	i686-elf-gcc -c keyboard.c -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+	$(CCAS) $< -o gdts.o
 
 boot.o: boot.s
-	i686-elf-as boot.s -o boot.o
+	$(CCAS) $< -o boot.o
 
-terminal.o: terminal.h terminal.c vga.h
-	i686-elf-gcc -c terminal.c -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+interrupt.o: interrupt.c $(INCLUDEDIR)interrupt.h
+	$(CC) -c $^ -std=gnu99 $(CFLAGS) -Wextra
 
-kernel.o: kernel.c
-	i686-elf-gcc -c kernel.c -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+pic.o: pic.c $(INCLUDEDIR)pic.h
+	$(CC) -c $^ -std=gnu99 $(CFLAGS) -Wextra
 
-create: kernel.o terminal.o boot.o inb_outb.o keyboard.o gdts.o gdt.o
-	i686-elf-gcc -T linker.ld -o myos.bin -ffreestanding -O2 -nostdlib *.o -lgcc
+idt.o: idt.c $(INCLUDEDIR)idt.h
+	$(CC) -c $^ -std=gnu99 $(CFLAGS) -Wextra
+
+gdt.o: gdt.c $(INCLUDEDIR)gdt.h
+	$(CC) -c $^ -std=gnu99 $(CFLAGS) -Wextra
+
+inb_outb.o: $(INCLUDEDIR)inb_outb.h
+	$(CC) -c $^ -std=gnu99 $(CFLAGS) -Wextra
+
+keyboard.o: keyboard.c $(INCLUDEDIR)keyboard.h
+	$(CC) -c $^ -std=gnu99 $(CFLAGS) -Wextra
+
+terminal.o: terminal.c $(INCLUDEDIR)terminal.h $(INCLUDEDIR)vga.h
+	$(CC) -c $^ -std=gnu99 $(CFLAGS) -Wextra
+
+kernel.o: kernel.c $(INCLUDEDIR)kernel.h
+	$(CC) -c $^ -std=gnu99 $(CFLAGS) -Wextra
+
+create: $(OBJAS) $(OBJ)
+	$(CC) -T linker.ld -o myos.bin $(CFLAGS) -nostdlib *.o -lgcc
 	grub2-file --is-x86-multiboot myos.bin
 	\cp -f myos.bin isodir/boot/myos.bin
 	grub2-mkrescue -o myos.iso isodir
 
 clean:
-	rm -f *.o myos.bin
+	rm -f *.o myos.bin myos.iso $(INCLUDEDIR)*~ ./*~
