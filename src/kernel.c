@@ -2,7 +2,9 @@
 
 void kernel_main(void){
   terminal_initialize();
+  key_init();
   terminal_writestring("Hello, \nkernel \nWorld! \n");
+  keyboard_input_int();
 }
 
 
