@@ -121,11 +121,6 @@ uint8_t getscode(void){
 }
 
 
-uint8_t getchar(void){
-  return getscode();
-}
-
-
 void change_codeset(uint8_t set){
   outb(PORTMAP_KEYBOARD1, SET_SCANCODESET);
   outb(PORTMAP_KEYBOARD1, set);

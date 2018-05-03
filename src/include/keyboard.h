@@ -68,7 +68,6 @@ void keyboard_input_int(uint8_t);
 void switch_kb_led(uint8_t);
 uint8_t enable_keyboard(void);
 uint8_t getscode(void);
-uint8_t getchar(void);
 uint8_t getscodeset(void);
 void change_codeset(uint8_t);
 void change_trate_delay(uint8_t);

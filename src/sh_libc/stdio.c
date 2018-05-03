@@ -12,7 +12,6 @@ int sh_printf(const unsigned char* format, ...){
 int sh_vprintf(const unsigned char* format, va_list parameter) {
   unsigned long num = 0;
   size_t amount = 0;
-  bool flag = false;
   
   while (*format != '\0') {
     if (format[0] != '%' || format[1] == '%') {
@@ -29,16 +28,13 @@ int sh_vprintf(const unsigned char* format, va_list parameter) {
 
     //length
     if (*format == '0'){
-      flag = true;
+      PRINTF_LEN_FLAG = true;
       format++;
       while(*format >= '0' && *format <= '9'){
 	length = (length * 10) + (*format - '0');
 	format++;
       }
     }
-
-    char pading[255];
-    pading[length - 1] = '\0';
 
     //type
     switch (*format) {
@@ -59,39 +55,14 @@ int sh_vprintf(const unsigned char* format, va_list parameter) {
     case 'i':
     case 'd':
       ++format;
-      unsigned char decimaldata[11];
       num = va_arg(parameter, int);
-      
-      sh_itoa(num, decimaldata, 10);
-      if (flag && sh_strlen(decimaldata) - 1 < length) {
-	for (int i = 0; i < length - sh_strlen(decimaldata); i++) {
-	  pading[i] = '0';
-	}
-	sh_strcat(pading, decimaldata);
-	if (!print(pading, sh_strlen(pading))) { return -1; }
-	flag = false;
-      } else {
-	if (!print(decimaldata, sh_strlen(decimaldata))) { return -1; }
-      }
-      
+      numeral_formatting(num, length, 10);
       break;
       
     case 'x':
       ++format;
-      unsigned char hexdata[9];
       num = va_arg(parameter, unsigned long);
-      
-      sh_itoa(num, hexdata, 16);
-      if (flag && sh_strlen(hexdata) - 1 < length) {
-	for (int i = 0; i < length - sh_strlen(hexdata); i++) {
-	  pading[i] = '0';
-	}
-	sh_strcat(pading, hexdata);
-	if (!print(pading, sh_strlen(pading))) { return -1; }
-	flag = false;
-      } else {
-	if (!print(hexdata, sh_strlen(hexdata))) { return -1; }
-      }
+      numeral_formatting(num, length, 16);      
       break;
       
     default:
@@ -103,6 +74,24 @@ int sh_vprintf(const unsigned char* format, va_list parameter) {
   }
   return 0;
 
+}
+
+
+void numeral_formatting(int num, int length, int redix) {
+  char pading[255];
+  unsigned char data[255];  
+  pading[length - 1] = '\0';
+  sh_itoa(num, data, redix);
+  if (PRINTF_LEN_FLAG && sh_strlen(data) - 1 < length) {
+    for (int i = 0; i < length - sh_strlen(data); i++) {
+      pading[i] = '0';
+    }
+    sh_strcat(pading, data);
+    if (!print(pading, sh_strlen(pading))) { return -1; }
+    PRINTF_LEN_FLAG = false;
+  } else {
+    if (!print(data, sh_strlen(data))) { return -1; }
+  }
 }
 
 
@@ -119,4 +108,9 @@ int sh_putchar(int intchar) {
   char ch = (char) intchar;
   terminal_write(&ch, sizeof(ch));
   return intchar;
+}
+
+
+unsigned char sh_getchar(void){
+  return getscode();
 }

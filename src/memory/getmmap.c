@@ -21,6 +21,9 @@ void getmmap(multiboot_info_t* mbt){
     case 0x04:;
       sh_strcpy(type_str, "ACPI non-volatile storage RAM");
       break;
+    case 0x05:;
+      sh_strcpy(type_str, "Usage prohibited RAM");
+      break;
     }
     if (mmap -> base_addr_high == 0x0) {
       sh_printf("base_addr = 0x%x: ", mmap -> base_addr_low);
@@ -35,6 +38,5 @@ void getmmap(multiboot_info_t* mbt){
     }
     sh_printf("type = %s\n", type_str);
   }
-
   sh_printf("===================================================\n\n");
 }

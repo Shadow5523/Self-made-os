@@ -1,6 +1,11 @@
+#ifndef _KERNEL_H_
+#define _KERNEL_H_
+
+
 #if !defined(__cplusplus)
 #include <stdbool.h>
 #endif
+
 #include <stddef.h>
 #include <stdint.h>
 
@@ -25,8 +30,8 @@
 #include "../sh_libc/include/stdio.h"
 #include "../sh_libc/include/math.h"
 
-uint8_t* c[2];
+int input_line(char*, char*);
+void prompt(void);
+int executing(char*);
 
-#if defined(__cplusplus)
-us_keytableextern "C"
-#endif
+#endif _KERNEL_H_
