@@ -1,5 +1,5 @@
-#include "include/terminal.h"
-#include "include/vga.h"
+#include "../include/terminal.h"
+#include "../include/vga.h"
 
 void terminal_initialize(void){
   t_row = 0;
@@ -83,5 +83,5 @@ void terminal_write(const uint8_t* data, size_t size){
 
 
 void terminal_writestring(const uint8_t* data){
-  terminal_write(data, strlen(data));
+  terminal_write(data, sh_strlen(data));
 }

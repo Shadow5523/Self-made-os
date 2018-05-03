@@ -1,4 +1,4 @@
-#include "include/keyboard.h"
+#include "../include/keyboard.h"
 
 const keymap key_code = {
   .base = {

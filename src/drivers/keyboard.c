@@ -1,5 +1,5 @@
-#include "include/keyboard.h"
-#include "include/inb_outb.h"
+#include "../include/keyboard.h"
+#include "../include/inb_outb.h"
 
 key_buf kb;
 

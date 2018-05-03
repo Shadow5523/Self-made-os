@@ -1,4 +1,4 @@
-#include "include/pic.h"
+#include "../include/pic.h"
 
 void pic_init(void){
   terminal_writestring("Initialize PIC...");

@@ -22,6 +22,10 @@ stack_top:
 
 _start:
         mov $stack_top, %esp
+
+	push %eax
+	push %ebx
+	
         call kernel_main
         cli
 1:              hlt

@@ -20,10 +20,12 @@
 #include "gdt.h"
 #include "pic.h"
 #include "idt.h"
+#include "multiboot.h"
+#include "getmmap.h"
+#include "../sh_libc/include/stdio.h"
+#include "../sh_libc/include/math.h"
 
 uint8_t* c[2];
-
-size_t strlen(const uint8_t*);
 
 #if defined(__cplusplus)
 us_keytableextern "C"

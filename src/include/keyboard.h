@@ -6,7 +6,7 @@
 #include <stdbool.h>
 
 //command
-#define SWITCH_LED           0xED     //追加
+#define SWITCH_LED           0xED
 #define ENABLE_KEYBOARD      0xF4
 #define SET_SCANCODESET      0xF0
 #define SET_TYPEMATIC_RATE   0xF3
@@ -29,7 +29,7 @@
 #define SET_NUMLOCK_LED      0x02
 #define SET_SCROLLLOCK_LED   0x01
 
-//追加
+//scan_code
 #define L_SHIFT              0x2A
 #define R_SHIFT              0x36
 #define CAPS_LOCK            0x3A
@@ -49,7 +49,6 @@ typedef struct{
   uint8_t numlock[0x80];
 }keymap;
 
-//以下の構造体を追加する
 typedef struct{
   bool shift_enable:1;
   bool relese_enable:1;
@@ -59,9 +58,9 @@ typedef struct{
   uint8_t led_stat;
 }kb_stat;
 
-kb_stat ks;     //追加
-const keymap key_code;     //追加
-bool ext_input;     //追加
+kb_stat ks;
+const keymap key_code;
+bool ext_input;
 
 void key_init(void);
 uint8_t ps2_kerboard_init(void);

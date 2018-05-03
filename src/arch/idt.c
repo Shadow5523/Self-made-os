@@ -1,4 +1,4 @@
-#include "include/idt.h"
+#include "../include/idt.h"
 
 void idt_init(void){
   idtr idt;

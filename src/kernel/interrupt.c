@@ -1,4 +1,4 @@
-#include "include/interrupt.h"
+#include "../include/interrupt.h"
 
 void interrupt_done(void){
   outb(MASTER_PIC_CMD_STAT, PIC_EOI);
