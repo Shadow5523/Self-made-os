@@ -135,7 +135,7 @@ void change_trate_delay(uint8_t set){
 }
 
 
-void input_bufdata(uint8_t scan_code) {
+void input_bufdata(uint8_t scan_code){
   const keymap *key = &key_code;
   uint8_t numpad_data = 0;
   

@@ -1,6 +1,6 @@
 #include "../include/gdt.h"
 
-void gdt_init(){
+void gdt_init(void){
   gdtr   gdt;
   terminal_writestring("Initialize GDT...");
   for (size_t i = 0; i < GDT_LEN; i++) {

@@ -14,6 +14,11 @@ void kernel_main(multiboot_info_t* mbt, uint32_t magic){
   key_init();
   getmmap(mbt);
   sh_printf("Hello, kernel World! \n\n");
+
+  //system call test
+  sh_write(1, "test\n", 10);
+  sh_printf("Arch linux!");
+  
   prompt();
 }
 

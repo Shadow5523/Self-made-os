@@ -29,6 +29,7 @@
 #include "getmmap.h"
 #include "../sh_libc/include/stdio.h"
 #include "../sh_libc/include/math.h"
+#include "../sh_libc/include/io.h"
 
 int input_line(char*, char*);
 void prompt(void);

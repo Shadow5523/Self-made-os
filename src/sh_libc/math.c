@@ -1,6 +1,6 @@
 #include "include/math.h"
 
-double sh_pow(double x, double y) {
+double sh_pow(double x, double y){
   int i = 1;
   int j = 1;
   double p = 1;

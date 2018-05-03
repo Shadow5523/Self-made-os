@@ -9,7 +9,7 @@ int sh_printf(const unsigned char* format, ...){
 }
 
 
-int sh_vprintf(const unsigned char* format, va_list parameter) {
+int sh_vprintf(const unsigned char* format, va_list parameter){
   unsigned long num = 0;
   size_t amount = 0;
   
@@ -77,7 +77,7 @@ int sh_vprintf(const unsigned char* format, va_list parameter) {
 }
 
 
-void numeral_formatting(int num, int length, int redix) {
+void numeral_formatting(int num, int length, int redix){
   char pading[255];
   unsigned char data[255];  
   pading[length - 1] = '\0';
@@ -95,7 +95,7 @@ void numeral_formatting(int num, int length, int redix) {
 }
 
 
-static bool print(const unsigned char* data, size_t length) {
+static bool print(const unsigned char* data, size_t length){
   const unsigned char* bytes = (const unsigned char*) data;
   for (size_t i = 0; i < length; i++) {
     if (sh_putchar(bytes[i]) == '\0') { return false; }
@@ -104,7 +104,7 @@ static bool print(const unsigned char* data, size_t length) {
 }
 
 
-int sh_putchar(int intchar) {
+int sh_putchar(int intchar){
   char ch = (char) intchar;
   terminal_write(&ch, sizeof(ch));
   return intchar;

@@ -1,7 +1,9 @@
 all: create
 OBJ = kernel.o terminal.o boot.o inb_outb.o keyboard.o \
       keymap.o gdt.o idt.o pic.o interrupt.o stdio.o \
-      stdlib.o string.o math.o getmmap.o
+      stdlib.o string.o math.o getmmap.o io.o sysdep.o \
+      syscall.o
+
 OBJAS = interruptas.o idts.o gdts.o boot.o
 
 
@@ -58,6 +60,9 @@ terminal.o: $(DRVDIR)terminal.c $(INCLUDEDIR)terminal.h $(INCLUDEDIR)vga.h
 kernel.o: $(KRNDIR)kernel.c $(INCLUDEDIR)kernel.h $(INCLUDEDIR)multiboot.h
 	$(CC) -c $^ -std=gnu99 $(CFLAGS) -Wextra
 
+syscall.o: $(KRNDIR)syscall.c $(INCLUDEDIR)syscall.h $(INCLUDEDIR)syscallnum.h
+	$(CC) -c $^ -std=gnu99 $(CFLAGS) -Wextra
+
 stdio.o: $(SHLIBC)stdio.c $(SHLIBCINC)stdio.h
 	$(CC) -c $^ -std=gnu99 $(CFLAGS) -Wextra
 
@@ -70,6 +75,12 @@ string.o: $(SHLIBC)string.c $(SHLIBCINC)string.h
 math.o: $(SHLIBC)math.c $(SHLIBCINC)math.h
 	$(CC) -c $^ -std=gnu99 $(CFLAGS) -Wextra
 
+io.o: $(SHLIBC)io.c $(SHLIBCINC)io.h
+	$(CC) -c $^ -std=gnu99 $(CFLAGS) -Wextra
+
+sysdep.o: $(SHLIBC)sysdep.c $(SHLIBCINC)sysdep.h
+	$(CC) -c $^ -std=gnu99 $(CFLAGS) -Wextra
+
 getmmap.o: $(MEMDIR)getmmap.c $(INCLUDEDIR)getmmap.h
 	$(CC) -c $^ -std=gnu99 $(CFLAGS) -Wextra
 
@@ -80,4 +91,6 @@ create: $(OBJAS) $(OBJ)
 	grub2-mkrescue -o myos.iso isodir
 
 clean:
-	rm -f *.o myos.bin myos.iso $(INCLUDEDIR)*~ ./*~
+	rm -f *.o myos.bin myos.iso isodir/boot/myos.bin
+	rm -f ./*~ $(ARCHDIR)*~ $(INCLUDEDIR)*~ $(SHLIBCINC)*~
+	rm -f $(SHLIBCINC)*gch $(INCLUDEDIR)*gch
